@@ -107,15 +107,22 @@ The solution should only be scaled if the experiment demonstrates a meaningful a
 
 ```text
 collections-recovery-analysis/
-│
+│── golden_dataset/
+|
 ├── notebooks/
 │   └── analysis.ipynb
-    └── notebook.py
+|    └── notebook.py
 │
 ├── sql/
 │   ├── 01_staging.sql
 │   └── 02_golden.sql
 │
+|── architecture/
+|   └── architecture.png
+|
+|── dashboard/
+|    └── dashboard.html
+|
 ├── dq_report/
 │   └── data quality report.pdf
 │
