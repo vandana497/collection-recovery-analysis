@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Collections Recovery — Executive Dashboard</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  :root{
+    --bg:#f5f4f0; --card:#ffffff; --border:#e3e1d9; --text:#0b0b0b;
+    --sub:#52514e; --muted:#898781; --red:#c0392b; --green:#0e8a4b; --amber:#b5780a; --blue:#2a78d6;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);padding:24px}
+  .wrap{max-width:1180px;margin:0 auto}
+  h1{font-size:22px;font-weight:600;margin:0 0 4px}
+  .subtitle{color:var(--sub);font-size:14px;margin:0 0 24px}
+  .kpi-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-bottom:24px}
+  .kpi{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px}
+  .kpi p.label{font-size:12px;color:var(--sub);margin:0 0 6px}
+  .kpi p.value{font-size:22px;font-weight:700;margin:0}
+  .kpi p.note{font-size:11px;color:var(--muted);margin:4px 0 0}
+  .red{color:var(--red)} .green{color:var(--green)} .amber{color:var(--amber)} .blue{color:var(--blue)}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+  .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px}
+  .card h3{font-size:14px;font-weight:600;margin:0 0 2px}
+  .card p.desc{font-size:12px;color:var(--sub);margin:0 0 12px}
+  .chart-box{position:relative;width:100%}
+  .h240{height:240px} .h280{height:280px} .h220{height:220px}
+  .legend{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:8px;font-size:12px;color:var(--sub)}
+  .dot{width:10px;height:10px;border-radius:2px;display:inline-block;margin-right:4px;vertical-align:-1px}
+  .banner{background:#fdecea;border:1px solid #f3b9b3;border-radius:10px;padding:14px 16px;margin-bottom:20px;font-size:13px;color:#7a2b21}
+  .banner b{color:#c0392b}
+  .banner2{background:#e8f6ed;border:1px solid #a9dcbb;border-radius:10px;padding:14px 16px;margin-bottom:24px;font-size:13px;color:#1c5c37}
+  .banner2 b{color:#0e8a4b}
+  table{width:100%;border-collapse:collapse;font-size:12px;margin-top:8px}
+  th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)}
+  th{color:var(--sub);font-weight:600}
+  .tag{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600}
+  .tag-fact{background:#e8f6ed;color:#0e8a4b}
+  .tag-strong{background:#eaf1fb;color:#2a78d6}
+  .tag-hyp{background:#fdf3e3;color:#b5780a}
+  .footer{font-size:11px;color:var(--muted);margin-top:24px;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Collections recovery performance — executive dashboard</h1>
+  <p class="subtitle">12-month collections data review · Jan–Aug 2026 · Golden dataset, independently defined metrics</p>
+
+
+  <div class="kpi-grid">
+    <div class="kpi"><p class="label">Reported claim</p><p class="value red">+11%</p><p class="note">MoM — not supported</p></div>
+    <div class="kpi"><p class="label">Real growth Jan–Jul</p><p class="value green">+30%</p><p class="note">Cumulative, cleaned data</p></div>
+    <div class="kpi"><p class="label">Avg MoM growth</p><p class="value green">+4.8%</p><p class="note">Range -4.6% to +15.2%</p></div>
+    <div class="kpi"><p class="label">Naive inflation</p><p class="value amber">6–29%</p><p class="note">Dupe/reversed payments</p></div>
+    <div class="kpi"><p class="label">Contact rate</p><p class="value">39%</p><p class="note">Flat all year</p></div>
+    <div class="kpi"><p class="label">PTP rate</p><p class="value blue">74%→78%</p><p class="note">The real mover</p></div>
+  </div>
+
+  <div class="row">
+    <div class="card">
+      <h3>Naive vs cleaned monthly recovery</h3>
+      <p class="desc">Raw "SUCCESS" sum vs deduplicated, reversal-excluded recovery</p>
+      <div class="legend">
+        <span><span class="dot" style="background:#e34948"></span>Naive (reported)</span>
+        <span><span class="dot" style="background:#2a78d6"></span>Golden (cleaned)</span>
+      </div>
+      <div class="chart-box h240"><canvas id="recChart" role="img" aria-label="Line chart: naive recovery roughly flat 17-19 Cr per month, golden recovery rising from 13.6 to 17.7 Cr, Jan-Jul 2026"></canvas></div>
+    </div>
+    <div class="card">
+      <h3>Month-on-month growth — is 11% ever true?</h3>
+      <p class="desc">MoM % change, naive vs golden — no month hits +11% in either series</p>
+      <div class="legend">
+        <span><span class="dot" style="background:#e34948"></span>Naive MoM %</span>
+        <span><span class="dot" style="background:#2a78d6"></span>Golden MoM %</span>
+        <span><span class="dot" style="background:#0e8a4b"></span>11% reference line</span>
+      </div>
+      <div class="chart-box h240"><canvas id="momChart" role="img" aria-label="Bar chart: month-on-month growth percent for naive and golden recovery, February through July 2026, compared against an 11 percent reference line — no month reaches 11 percent in either series"></canvas></div>
+    </div>
+  </div>
+
+  <div class="row3">
+    <div class="card">
+      <h3>Touch volume by channel</h3>
+      <p class="desc">Share of all borrower interactions</p>
+      <div class="chart-box h220"><canvas id="channelPie" role="img" aria-label="Pie chart: voice 53 percent, WhatsApp 22 percent, SMS 15 percent, field visits 11 percent of all touches"></canvas></div>
+    </div>
+    <div class="card">
+      <h3>Contact rate by channel</h3>
+      <p class="desc">% of touches that reached the borrower</p>
+      <div class="chart-box h220"><canvas id="contactBar" role="img" aria-label="Bar chart: field 66 percent, WhatsApp 60 percent, SMS 33 percent, voice 20 percent contact rate"></canvas></div>
+    </div>
+    <div class="card">
+      <h3>Driver test results</h3>
+      <p class="desc">What actually explains the change</p>
+      <div class="chart-box h220"><canvas id="driverBar" role="img" aria-label="Horizontal bar chart showing which drivers were confirmed facts, ruled out, or unsupported hypotheses"></canvas></div>
+    </div>
+  </div>
+
+  <div class="banner"><b>Reported claim: "Recovery improved 11% month-on-month."</b> Not observed in clean data — no single month in either the raw or cleaned series shows an 11% MoM move. See the growth chart below.</div>
+
+  <div class="banner2"><b>₹10 Cr investment: modeled ROI by option.</b> Field operations shows the strongest modeled return (headcount scales linearly against the best contact rate, 66%) — ahead of AI voice automation, which targets the largest but weakest channel (53% of volume, 20% contact rate). Both are assumption-based estimates (no cost data exists in the source dataset) — recommend a pilot before full commitment either way.</div>
+
+  
+  
+</div>
+
+<script>
+const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul'];
+const naive = [19.1,17.4,19.3,17.8,18.7,17.9,19.0];
+const golden = [13.6,13.0,15.0,14.5,15.9,16.1,17.7];
+
+new Chart(document.getElementById('recChart'), {
+  type: 'line',
+  data: { labels: months, datasets: [
+    { label:'Naive', data: naive, borderColor:'#e34948', backgroundColor:'#e34948', borderWidth:2, pointRadius:3, tension:0.2 },
+    { label:'Golden', data: golden, borderColor:'#2a78d6', backgroundColor:'#2a78d6', borderWidth:2, pointRadius:3, tension:0.2 }
+  ]},
+  options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{ y:{ title:{display:true,text:'Rs Cr'} } } }
+});
+
+function pctChange(arr){ const out=[null]; for(let i=1;i<arr.length;i++){ out.push(((arr[i]-arr[i-1])/arr[i-1]*100)); } return out; }
+const naiveMom = pctChange(naive).slice(1);
+const goldenMom = pctChange(golden).slice(1);
+new Chart(document.getElementById('momChart'), {
+  type: 'bar',
+  data: { labels: months.slice(1), datasets: [
+    { label:'Naive MoM %', data: naiveMom, backgroundColor:'#e34948' },
+    { label:'Golden MoM %', data: goldenMom, backgroundColor:'#2a78d6' }
+  ]},
+  options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false},
+    annotation:{} },
+    scales:{ y:{ title:{display:true,text:'MoM %'} } } }
+});
+// 11% reference line via a plugin-free approach: draw after chart render
+Chart.register({
+  id:'refLine11',
+  afterDraw(chart){
+    if(chart.canvas.id!=='momChart') return;
+    const {ctx, chartArea:{left,right}, scales:{y}} = chart;
+    const yPos = y.getPixelForValue(11);
+    ctx.save();
+    ctx.strokeStyle = '#0e8a4b'; ctx.setLineDash([5,4]); ctx.lineWidth=1.5;
+    ctx.beginPath(); ctx.moveTo(left, yPos); ctx.lineTo(right, yPos); ctx.stroke();
+    ctx.restore();
+  }
+});
+
+new Chart(document.getElementById('channelPie'), {
+  type: 'pie',
+  data: { labels:['Voice (53%)','WhatsApp (22%)','SMS (15%)','Field (11%)'],
+    datasets:[{ data:[120000,49971,33749,25000], backgroundColor:['#2a78d6','#1baf7a','#eda100','#e87ba4'] }] },
+  options: { responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:'bottom', labels:{boxWidth:10,font:{size:11}} } } }
+});
+
+new Chart(document.getElementById('contactBar'), {
+  type: 'bar',
+  data: { labels:['Field','WhatsApp','SMS','Voice'], datasets:[{ label:'Contact rate %', data:[66.4,59.6,33.2,20.0],
+    backgroundColor:['#1baf7a','#1baf7a','#eda100','#e34948'] }] },
+  options: { indexAxis:'y', responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}},
+    scales:{ x:{ title:{display:true,text:'%'}, max:100 } } }
+});
+
+new Chart(document.getElementById('driverBar'), {
+  type: 'bar',
+  data: { labels:['Payment dupes','Vendor mix','Portfolio mix','Denominator','Targeting strategy'],
+    datasets:[{ data:[1,-1,-1,-1,0], backgroundColor:['#e34948','#1baf7a','#1baf7a','#1baf7a','#eda100'] }] },
+  options: { indexAxis:'y', responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{display:false}, tooltip:{ callbacks:{ label:(c)=> c.raw===1?'Confirmed driver':(c.raw===-1?'Ruled out':'Not supported') } } },
+    scales:{ x:{ display:false, min:-1.5, max:1.5 } } }
+});
+
+new Chart(document.getElementById('roiChart'), {
+  type: 'bar',
+  data: { labels:['Telephony infra','More agents','AI voice automation','Better targeting','WhatsApp/digital','Field operations'],
+    datasets:[{ label:'ROI %', data:[-80.2,-58.7,-50.5,-95.0,-17.4,128.5],
+      backgroundColor:(ctx)=> ctx.raw>=0 ? '#0e8a4b' : '#e34948' }] },
+  options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}},
+    scales:{ y:{ title:{display:true,text:'ROI %'} } } }
+});
+</script>
+</body>
+</html>

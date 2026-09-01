@@ -1,0 +1,5 @@
+data_quality_checks
+.env
+raw
+raw.duckdb
+load_data.py
