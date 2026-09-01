@@ -110,19 +110,18 @@ collections-recovery-analysis/
 │
 ├── notebooks/
 │   └── analysis.ipynb
+    └── notebook.py
 │
 ├── sql/
 │   ├── 01_staging.sql
 │   └── 02_golden.sql
 │
 ├── dq_report/
-│   └── data_quality_report.md
+│   └── data quality report.pdf
 │
 ├── memo/
-│   └── executive_memo.docx
+│   └── memo.pdf
 │
-├── data/
-│   └── README.md
 │
 ├── README.md
 ├── requirements.txt
